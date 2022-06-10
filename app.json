@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "to-do-list",
-    "slug": "to-do-list",
+    "name": "Todo Application",
+    "slug": "todoApplication",
+    "privacy": "public",
+    "description": "Application to keep track of todos",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
