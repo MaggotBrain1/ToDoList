@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import { EvilIcons } from '@expo/vector-icons';
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import {storeData} from "../StorageDataService/StorageDataService";
 
 
 const PhotoItem =() => {
@@ -16,6 +17,8 @@ const PhotoItem =() => {
             allowsEditing: true,
         });
         setImage(img)
+        console.log("image.uri ",image.uri)
+        await storeData('pp', image.uri)
     }
     return(
 
@@ -27,31 +30,29 @@ const PhotoItem =() => {
                         image && <Image source={{uri: image.uri}} style={styles.image}/>
                         :
                         <View style={styles.imageEmpty}>
-                            <EvilIcons name="user" size={60} style={styles.image} />
+                            <EvilIcons name="user" size={200} style={styles.image} />
                         </View>
-
                 }
             </TouchableOpacity>
-
         </View>
     );
 };
 const styles = StyleSheet.create({
     main_container: {
     flex:1,
-        height:50,
-        width:50,
+        height:200,
+        width:200,
         borderRadius:100,
     },
     image: {
-        height:50,
-        width:50,
+        height:200,
+        width:200,
         borderRadius:100,
         color:"#00365C"
     },
     imageEmpty:{
-        height:50,
-        width:50,
+        height:200,
+        width:200,
         borderRadius:100,
     },
 

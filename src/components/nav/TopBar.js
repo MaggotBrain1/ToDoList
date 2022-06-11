@@ -1,14 +1,36 @@
-import React from 'react';
-import {StyleSheet,TouchableOpacity, View} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons';
+import {AntDesign, EvilIcons} from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import PhotoItem from "../photo/PhotoItem";
+import {getStoreData} from "../StorageDataService/StorageDataService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const TopBar = ({task}) =>{
+    const [uri, setUri] = useState(null);
     const navigation = useNavigation();
+  // getStoreData('pp').then( res => setUri(res) );
+    const storeData = async (name, value) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem(name, jsonValue)
+            console.log("La donnée " + name + " à été stockée , sa valeur est "+ value )
+
+        } catch (e) {
+            console.log("impossible de sauvegarder la donnée")
+        }
+    }
+    useEffect(() => {
+        storeData()
+            .then(data => {
+                setUri(data);
+            })
+            .catch(error => console.log(error));
+    }, [uri]);
+    console.log(uri)
 
     return(
         <View style={styles.container}>
@@ -22,10 +44,19 @@ const TopBar = ({task}) =>{
                         <AntDesign name="home" size={30} color="#00365C" />
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.navBtnA}>
-                    <PhotoItem/>
-                    <TouchableOpacity onPress={()=>console.log("GO to alert" )}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
+                        {
+                            uri ?
+                                uri && <Image source={uri} style={styles.img}/>
+                                :
+                                <View style={styles.imageEmpty} style={styles.image}>
+                                    <EvilIcons name="user" size={60} style={styles.image} />
+                                </View>
+                        }
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
                         <Feather name="bell" size={30} color="#00365C" />
                     </TouchableOpacity>
                 </View>
@@ -60,7 +91,11 @@ const styles = StyleSheet.create({
         width:"22%",
         alignItems:"center",
         alignContent:"center",
-
+    },
+    img:{
+        height:60,
+        width:60,
+        borderRadius:100
     }
 
 

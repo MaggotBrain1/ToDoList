@@ -10,7 +10,7 @@ const CountersContainer = ({ nbTasks, nbTasksCompleted }) => {
                 <Counter nb={nbTasks} title={'Tâches créées'}/>
             </View>
             <View style={styles.taskContainer}>
-                <Counter nb={nbTasksCompleted()} title={'Tâches complétées'}/>
+                <Counter nb={nbTasksCompleted} title={'Tâches complétées'}/>
             </View>
         </View>
 

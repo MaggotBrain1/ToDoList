@@ -6,6 +6,7 @@ import CountersContainer from "./Counters.Container";
 import FloatingButton from "../_Shared/FLoatingButton";
 import UserContext from '../context/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {storeData} from "../StorageDataService/StorageDataService";
 
  function  TasksContainer(props) {
      const [tasks, setTasks] = useState([]);
@@ -16,7 +17,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
      const onAddTask = (title) => {
          const newTask = {id:new Date().getTime().toString(), title: title, completed: false }
          setTasks([newTask, ...tasks])
-         storeData(tasks).then(r =>console.log("on stock les task") );
+         storeData('nbTasks',tasks.length).catch();
+         storeData('tasksComplet',getTasksCompleted()).catch();
+         storeData('tasks',tasks).catch();
      };
  /// change le statut de la tâche ///
      const onChangeStatus =(id) => {
@@ -63,27 +66,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
          setIsFormOpened(!isFormOpened)
      }
 
-  /*   const userContextValue = {
-        tasks : tasks
-     }*/
-     const storeData = async (value) => {
-         try {
-             const jsonValue = JSON.stringify(value)
-             await AsyncStorage.setItem('@tasks', jsonValue)
-             console.log("On save la data")
-
-         } catch (e) {
-             console.log("impossible de sauvegarder la donnée")
-         }
-     }
-
-
-
      return (
          <View style={styles.container}>
          <View style={styles.countTask}>
              {isFormOpened && <TaskForm onAddTask={onAddTask}/>}
-             <CountersContainer nbTasks={tasks.length} nbTasksCompleted={() => getTasksCompleted()}/>
          </View>
              <TaskList tasks={tasks} onChangeStatus={onChangeStatus} onDeleteTask={onDeleteTask} />
              <View style={styles.container}>

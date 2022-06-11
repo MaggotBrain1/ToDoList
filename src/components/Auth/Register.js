@@ -3,6 +3,7 @@ import {View, Text, ImageBackground, StyleSheet, TextInput, Image, TouchableOpac
 import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import RNPickerSelect from 'react-native-picker-select';
+import PhotoItem from "../photo/PhotoItem";
 
 
 const Register = () =>{
@@ -22,10 +23,12 @@ const Register = () =>{
         <View style={styles.container}>
 
             <ImageBackground source={require('../../../assets/bgHome.jpg')} resizeMode="cover"  style={{width: '100%', height: '100%'}}>
-                <Image
-                    style={styles.img}
-                    source={require('../../../assets/bgHome.jpg')}
-                />
+
+                <View  style={styles.img}>
+                    <PhotoItem />
+                </View>
+
+
                 <View style={styles.form}>
                     <TextInput
                         style={styles.input}
