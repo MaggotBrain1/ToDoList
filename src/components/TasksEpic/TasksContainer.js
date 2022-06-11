@@ -19,7 +19,7 @@ import {storeData} from "../StorageDataService/StorageDataService";
          setTasks([newTask, ...tasks])
          storeData('nbTasks',tasks.length).catch();
          storeData('tasksComplet',getTasksCompleted()).catch();
-         storeData('tasks',tasks).catch();
+         storeData('tasks', tasks).catch();
      };
  /// change le statut de la tâche ///
      const onChangeStatus =(id) => {

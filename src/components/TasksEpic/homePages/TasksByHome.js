@@ -3,56 +3,45 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CountersContainer from "../Counters.Container";
 import {useNavigation} from "@react-navigation/native";
+import {getStoreData} from "../../StorageDataService/StorageDataService";
 
  const TaskByHome =  ({ route, navigation }) => {
 
      const [nbAllTasks, setNbAllTasks] = useState(0);
      const [nbTasksComplete, setNbTasksComplete] = useState(0);
+     const [data, setData] = useState([]);
 
-     const [state, setState] = useState([]);
-     const getData = async () => {
+     useEffect( () => {
+          readData();
+         console.log( data)
+
+     }, []);
+
+     const readData = async () => {
          try {
-             await AsyncStorage.getItem('tasks')
+             const tasks = await AsyncStorage.getItem('tasks');
+             const nbTasks = await AsyncStorage.getItem('nbTasks');
+             if (tasks !== null) {
+                 setData(JSON.parse(tasks));
+             }
+             if(nbTasks != null) {
+                 setNbAllTasks(JSON.parse(nbTasks))
+             }
+
          } catch (e) {
-             console.log("impossible de sauvegarder la donnée")
+             alert('Failed to fetch the input from storage');
          }
-     }
-     useEffect(() => {
-         getData()
-             .then(data => {
-                 setState(JSON.parse(data));
-             })
-             .catch(error => console.log(error));
-     }, [state]);
-console.log("state ",state)
-     /*
-     useEffect(()=>{
-         getData();
-     })
-     console.log(nbAllTasks);
-     console.log(nbTasksComplete);
-
-
-     async function getData() {
-         const nbTasks = await AsyncStorage.getItem('nbTasks');
-         const tasksComplet = await AsyncStorage.getItem('tasksComplet');
-         const x = JSON.parse(nbTasks);
-         const y = JSON.parse(tasksComplet)
-         if(x >= 0 )
-         setNbAllTasks(x+1);
-         if(y >= 0)
-         setNbTasksComplete(y+1);
-     }
-*/
+     };
+     const showData = data.map((task)=>
+         <TouchableOpacity>
+            <Text style={styles.txt}>{task.title}</Text>
+         </TouchableOpacity>)
 
      return (
       <View style={styles.container} >
-          <CountersContainer nbTasks={nbAllTasks} nbTasksCompleted={nbTasksComplete}/>
-          <TouchableOpacity >
-          </TouchableOpacity>
+          <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{nbAllTasks}</Text> tâche(s) en attente</Text>
+           <View>{showData}</View>
       </View>
-
-
     );
 }
 
@@ -68,6 +57,19 @@ const styles = StyleSheet.create({
         bottom:"38%",
         marginLeft:20,
     },
+    txt:{
+        fontSize: 22,
+        color:'#3195C9',
+        marginTop:22,
+    },
+    txtNbTask:{
+        color:"#00365C"
+    },
+    NbTask:{
+        color:'#3195C9',
+        fontSize: 22,
+
+    }
 });
 
 

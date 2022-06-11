@@ -4,33 +4,13 @@ import {useNavigation} from "@react-navigation/native";
 import {AntDesign, EvilIcons} from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import PhotoItem from "../photo/PhotoItem";
-import {getStoreData} from "../StorageDataService/StorageDataService";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const TopBar = ({task}) =>{
-    const [uri, setUri] = useState(null);
     const navigation = useNavigation();
-  // getStoreData('pp').then( res => setUri(res) );
-    const storeData = async (name, value) => {
-        try {
-            const jsonValue = JSON.stringify(value)
-            await AsyncStorage.setItem(name, jsonValue)
-            console.log("La donnée " + name + " à été stockée , sa valeur est "+ value )
 
-        } catch (e) {
-            console.log("impossible de sauvegarder la donnée")
-        }
-    }
-    useEffect(() => {
-        storeData()
-            .then(data => {
-                setUri(data);
-            })
-            .catch(error => console.log(error));
-    }, [uri]);
-    console.log(uri)
 
     return(
         <View style={styles.container}>
@@ -46,14 +26,10 @@ const TopBar = ({task}) =>{
                 </View>
                 <View style={styles.navBtnA}>
                     <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
-                        {
-                            uri ?
-                                uri && <Image source={uri} style={styles.img}/>
-                                :
+
                                 <View style={styles.imageEmpty} style={styles.image}>
                                     <EvilIcons name="user" size={60} style={styles.image} />
                                 </View>
-                        }
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
