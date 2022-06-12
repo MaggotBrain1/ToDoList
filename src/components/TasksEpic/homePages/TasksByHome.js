@@ -4,12 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CountersContainer from "../Counters.Container";
 import {useNavigation} from "@react-navigation/native";
 import {getStoreData} from "../../StorageDataService/StorageDataService";
+import {Entypo} from "@expo/vector-icons";
 
- const TaskByHome =  ({ route, navigation }) => {
+ const TaskByHome =  () => {
 
      const [nbAllTasks, setNbAllTasks] = useState(0);
-     const [nbTasksComplete, setNbTasksComplete] = useState(0);
+     const [addTask, setAddTask] = useState(true);
      const [data, setData] = useState([]);
+     const navigation = useNavigation();
 
      useEffect( () => {
           readData();
@@ -33,7 +35,7 @@ import {getStoreData} from "../../StorageDataService/StorageDataService";
          }
      };
      const showData = data.map((task)=>
-         <TouchableOpacity>
+         <TouchableOpacity onPress={()=>navigation.navigate("Task",{params : {task :task}})}>
             <Text style={styles.txt}>{task.title}</Text>
          </TouchableOpacity>)
 
@@ -41,6 +43,7 @@ import {getStoreData} from "../../StorageDataService/StorageDataService";
       <View style={styles.container} >
           <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{nbAllTasks}</Text> tâche(s) en attente</Text>
            <View>{showData}</View>
+
       </View>
     );
 }
@@ -68,7 +71,9 @@ const styles = StyleSheet.create({
     NbTask:{
         color:'#3195C9',
         fontSize: 22,
-
+    },
+    btnadd:{
+        marginTop:50
     }
 });
 

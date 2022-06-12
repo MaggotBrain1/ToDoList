@@ -6,8 +6,6 @@ import TasksByHome from "./components/TasksEpic/homePages/TasksByHome";
 
  const Home = () => {
 
-
-
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground source={require('../assets/bgHome.jpg')} style={styles.backgroundImage} >

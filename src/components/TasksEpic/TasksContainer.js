@@ -1,30 +1,38 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from "react-native";
 import TaskList from "./TasksList";
 import TaskForm from "./TaskForm";
-import CountersContainer from "./Counters.Container";
 import FloatingButton from "../_Shared/FLoatingButton";
-import UserContext from '../context/UserContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {storeData} from "../StorageDataService/StorageDataService";
 
  function  TasksContainer(props) {
      const [tasks, setTasks] = useState([]);
-
      const [isFormOpened, setIsFormOpened] = useState(false)
 
-  /// crééer une nouvelle tâche ///
-     const onAddTask = (title) => {
-         const newTask = {id:new Date().getTime().toString(), title: title, completed: false }
-         setTasks([newTask, ...tasks])
+     useEffect(()=>{
          storeData('nbTasks',tasks.length).catch();
          storeData('tasksComplet',getTasksCompleted()).catch();
          storeData('tasks', tasks).catch();
+     },[tasks])
+
+
+  /// crééer une nouvelle tâche ///
+     const onAddTask = (title) => {
+         const newTask = {
+             id:new Date().getTime().toString(),
+             title: title,
+             completed: false,
+             taskDate :new Date(),
+             deadLine:null,
+             detail:null,
+             dateHeure:null
+         }
+         setTasks([newTask, ...tasks])
+
      };
  /// change le statut de la tâche ///
      const onChangeStatus =(id) => {
          let newTask = []
-
          tasks.forEach(task => {
              if (task.id === id) {
                  newTask.push({id: id, title: task.title, completed: !task.completed})

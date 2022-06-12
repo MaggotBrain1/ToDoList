@@ -1,7 +1,7 @@
 import React from 'react';
 import {View,Text ,StyleSheet} from 'react-native';
 
- const days = ['Dimanch','Lundi','Mardi','Mercredi','Jeudi','Vendredi', 'Samedi'];
+ const days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi', 'Samedi'];
  const months =['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre'];
 
 export default function  Header () {
