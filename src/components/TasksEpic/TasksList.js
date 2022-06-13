@@ -1,9 +1,11 @@
 import React from 'react'
-import {FlatList} from "react-native";
+import {FlatList, TouchableOpacity} from "react-native";
 import TaskTile from "./TaskTile";
 
 
 const TaskList = ({ tasks, onChangeStatus, onDeleteTask }) => {
+
+
 
     const _renderItem = ({ item }) =>
         <TaskTile
@@ -12,6 +14,7 @@ const TaskList = ({ tasks, onChangeStatus, onDeleteTask }) => {
             title={item.title}
             onChangeStatus={onChangeStatus}
             onDeleteTask={onDeleteTask}
+            item={item}
         />
     return (
         <FlatList

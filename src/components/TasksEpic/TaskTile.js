@@ -3,8 +3,10 @@ import {Image, Text, View, StyleSheet,TouchableOpacity} from 'react-native';
 import icon_check  from '../../../assets/icon_check.png';
 import icon_circle from '../../../assets/icon_circle.png';
 import icon_bin from '../../../assets/icon_bin.png';
+import {useNavigation} from "@react-navigation/native";
 
-const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask }) => {
+const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask, item }) => {
+    const navigation = useNavigation();
     return(
 
         <View style={styles.container}>
@@ -14,7 +16,7 @@ const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask }) => {
                 style={styles.iconCircle}
                 source={completed ? icon_check : icon_circle }/>
              </TouchableOpacity>
-               <TouchableOpacity onPress={() => onChangeStatus(id)}>
+               <TouchableOpacity onPress={() => navigation.navigate('Task',{params : {task :item}})}>
                <Text style={[styles.title, {color: completed ? '#02A1CD' : '#00365C'}]}>{title}</Text>
                </TouchableOpacity>
            </View>

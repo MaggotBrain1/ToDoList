@@ -35,15 +35,14 @@ import {Entypo} from "@expo/vector-icons";
          }
      };
      const showData = data.map((task)=>
-         <TouchableOpacity onPress={()=>navigation.navigate("Task",{params : {task :task}})}>
-            <Text style={styles.txt}>{task.title}</Text>
+         <TouchableOpacity onPress={()=>navigation.navigate("Task",{params : {task :task}})} id={task.id}>
+            <Text id={task.id} style={styles.txt}>{task.title}</Text>
          </TouchableOpacity>)
 
      return (
       <View style={styles.container} >
           <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{nbAllTasks}</Text> tâche(s) en attente</Text>
            <View>{showData}</View>
-
       </View>
     );
 }
