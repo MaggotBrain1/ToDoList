@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CarouselTasks from "./CarouselTasks";
 import * as SplashScreen from "expo-splash-screen";
 import {readDataObject} from "../../StorageDataService/StorageDataService";
+import DatePicker from "react-native-modern-datepicker";
+
 
 
  const TaskByHome =  () => {
@@ -41,9 +42,26 @@ import {readDataObject} from "../../StorageDataService/StorageDataService";
      return (
 
       <View style={styles.container} >
-          <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{nbAllTasks}</Text> tâche(s) en attente</Text>
+          <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{data.length}</Text> tâche(s) en attente</Text>
           <View>
              <CarouselTasks data={data}/>
+          </View>
+          <View style={styles.calandar}>
+              <DatePicker
+                  options={{
+                      backgroundColor: 'rgba(0, 44, 62, 0.5)',
+                      textHeaderColor: '#00A2D2',
+                      textDefaultColor: '#fff',
+                      selectedTextColor: '#fff',
+                      mainColor: '#5AC1E3',
+                      textSecondaryColor: '#5AC1E3',
+                  }}
+                  current="2020-07-13"
+                  selected="2020-07-23"
+                  mode="calendar"
+                  minuteInterval={30}
+                  style={{ borderRadius: 10 }}
+              />
           </View>
       </View>
 
@@ -58,6 +76,7 @@ const styles = StyleSheet.create({
         borderRadius:20,
         alignItems:"center",
         top:120,
+
     },
     txt:{
         fontSize: 22,
@@ -74,6 +93,12 @@ const styles = StyleSheet.create({
     btnadd:{
         marginTop:50
     },
+    calandar:{
+        width:"100%",
+        justifyContent:"center",
+        alignItems:"center"
+
+    }
 
 });
 

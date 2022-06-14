@@ -31,7 +31,11 @@ const ModalTime = ({setHeure,modalVisible1,toggleModal1}) =>{
 
 const styles = StyleSheet.create({
     datePicker:{
-        marginTop: "84%%"
+        marginTop: "81.5%",
+        width:"80%",
+        borderRadius:20,
+
+
     },
     btnModal:{
         alignItems:"center",

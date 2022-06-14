@@ -4,7 +4,6 @@ import {useNavigation} from "@react-navigation/native";
 
 const TaskItem = ({title, item }) => {
     const navigation = useNavigation();
-
     return(
 
         <View style={styles.container}>
