@@ -25,11 +25,12 @@ const ModalDP = ({setDate,modalVisible,toggleModal}) =>{
 
 const styles = StyleSheet.create({
     datePicker:{
-        marginTop: "84%%"
+        marginTop: "82%"
     },
     btnModal:{
         alignItems:"center",
-        marginTop:12
+        marginTop:11,
+        marginLeft:5.5
     }
 });
 

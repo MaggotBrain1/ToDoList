@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View,TextInput, StyleSheet,Image,TouchableOpacity} from 'react-native';
-import {Entypo, FontAwesome5} from '@expo/vector-icons';
+import {View, TextInput, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import { FontAwesome5, Ionicons} from '@expo/vector-icons';
 import ModalDP from "../modals/ModalDP";
 import ModalTime from "../modals/ModalTime";
-import {getFormatedDate} from "react-native-modern-datepicker";
 
 const TaskForm = ({onAddTask}) => {
 
@@ -39,18 +38,50 @@ const TaskForm = ({onAddTask}) => {
 
          <View style={styles.container}>
             <View style={styles.containerInput}>
-                <FontAwesome5 name="calendar" size={30} color="white" />
 
-                <TextInput  textAlign={'center'}
-                            value={title}
-                            onChangeText={_onChangeText}
-                            placeholder = "Créer une nouvelle tâche"
-                            placeholderTextColor='#B9D4E5'
-                            returnKeyType = {"done"}
-                            style={{ color:'white' }}
-                            onSubmitEditing={_onPressBtn}
-                            ref={refsFocus}
-                />
+                <View style={styles.lineDetails}>
+                    <FontAwesome5 name="calendar" size={30} color="white" />
+                    <TextInput  textAlign={'center'}
+                                value={title}
+                                onChangeText={_onChangeText}
+                                placeholder = "Créer une nouvelle tâche"
+                                placeholderTextColor='#B9D4E5'
+                                returnKeyType = {"done"}
+                                style={{ color:'white' }}
+                                onSubmitEditing={_onPressBtn}
+                                ref={refsFocus}
+                    />
+                </View>
+
+                <View style={styles.lineDetails}>
+                    <TouchableOpacity onPress={()=>setModalVisible1(true)}>
+                        <Ionicons name="time-outline" size={32} color="white" />
+                    </TouchableOpacity>
+                    {heure?
+                        <Text style={styles.txt}>
+                            {heure.toString()}
+                        </Text>
+                        :
+                        <Text style={styles.txt}>
+                            Ajouter une heure à tâche
+                        </Text>
+                    }
+                </View>
+
+                <View style={styles.lineDetails}>
+                    <TouchableOpacity onPress={()=>setModalVisible(true)}>
+                        <FontAwesome5 name="calendar" size={30} color="white" />
+                    </TouchableOpacity>
+
+                    {date? <Text style={styles.txt}>
+                            {date}
+                        </Text>
+                        :
+                        <Text style={styles.txt}>
+                            Ajouter une date pour à la tâche
+                        </Text>
+                    }
+                </View>
 
             </View>
              <ModalDP  setDate={setDate}  modalVisible={modalVisible} toggleModal={toggleModal}/>
@@ -72,7 +103,7 @@ const styles = StyleSheet.create({
     },
     containerInput: {
         width: '100%',
-        height: 200,
+        height: 230,
         borderWidth: 2,
         borderColor: '#359BCC',
         backgroundColor: '#359BCC',
@@ -80,6 +111,17 @@ const styles = StyleSheet.create({
     },
     btn:{
         right:15,
+    },
+    lineDetails:{
+        margin:"5%",
+        width:"90%",
+        justifyContent:"space-between",
+        flexDirection:"row",
+        alignContent:"center",
+        alignItems:"center",
+    },
+    txt:{
+        color:"#B9D4E5",
     }
 })
 

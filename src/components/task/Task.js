@@ -49,7 +49,7 @@ const Task = ({route }) => {
                                 </Text>
                                 :
                                 <Text style={styles.txt}>
-                                    Modifier l'heure  de la tâche
+                                    Ajouter une heure à la tâche
                                 </Text>}
                         </View>
 
@@ -63,7 +63,7 @@ const Task = ({route }) => {
                             </Text>
                             :
                                 <Text style={styles.txt}>
-                                    Modifier la date pour cette tâche
+                                    Ajouter une date à la tâche
                                 </Text>}
                         </View>
 

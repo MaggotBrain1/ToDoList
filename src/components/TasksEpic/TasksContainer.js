@@ -3,6 +3,7 @@ import {View, StyleSheet} from "react-native";
 import TaskList from "./TasksList";
 import TaskForm from "./TaskForm";
 import {storeData} from "../StorageDataService/StorageDataService";
+import {getFormatedDate} from "react-native-modern-datepicker";
 
  function  TasksContainer({showForm,toggleForm}) {
      const [tasks, setTasks] = useState([]);
@@ -17,20 +18,20 @@ import {storeData} from "../StorageDataService/StorageDataService";
 
   /// crééer une nouvelle tâche ///
      const onAddTask = (title,date,heure) => {
+         const dateFormat = getFormatedDate(date, "DD/MM/YYYY");
+
          const newTask = {
              id:new Date().getTime().toString(),
              title: title,
              completed: false,
              deadLine:null,
              detail:null,
-             date:date?date:null,
+             date:date?dateFormat:null,
              heure:heure?heure:null,
 
          }
          setTasks([newTask, ...tasks])
          toggleForm();
-
-
      };
  /// change le statut de la tâche ///
      const onChangeStatus =(id) => {
@@ -78,7 +79,7 @@ import {storeData} from "../StorageDataService/StorageDataService";
                      showForm ?
                          <TaskForm onAddTask={onAddTask} toggleForm={toggleForm}/>
                          :
-                         <View></View>
+                         <></>
                  }
              </View>
          </View>
@@ -94,7 +95,7 @@ import {storeData} from "../StorageDataService/StorageDataService";
      },
      taskFormContainer:{
          position:"absolute",
-         top:"55%"
+         top:"46%"
      },
      taskListContainer:{
          top:"10%",
