@@ -6,13 +6,17 @@ import {storeData} from "../StorageDataService/StorageDataService";
 import {getFormatedDate} from "react-native-modern-datepicker";
 
  function  TasksContainer({showForm,toggleForm}) {
+
      const [tasks, setTasks] = useState([]);
+     const [isTheFirstMount, setIsTheFirstMount] = useState(false);
 
      useEffect(()=>{
-         storeData('nbTasks',tasks.length).catch();
-         storeData('tasksComplet',getTasksCompleted()).catch();
-         storeData('tasks', tasks).catch();
-         console.log("showForm",showForm)
+         if(isTheFirstMount){
+             storeData('nbTasks',tasks.length).catch();
+             storeData('tasksComplet',getTasksCompleted()).catch();
+             storeData('tasks', tasks).catch();
+         }
+
      },[tasks,showForm])
 
 
@@ -31,6 +35,7 @@ import {getFormatedDate} from "react-native-modern-datepicker";
 
          }
          setTasks([newTask, ...tasks])
+         setIsTheFirstMount(true)
          toggleForm();
      };
  /// change le statut de la tâche ///
@@ -42,7 +47,6 @@ import {getFormatedDate} from "react-native-modern-datepicker";
              } else {
                  newTask.push(task);
              }
-
          });
          setTasks(newTask);
      }

@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Login from "../Auth/Login";
 import Register from "../Auth/Register";
 import AddList from "../AddList";
-import Task from "../task/Task";
+import DetailsTask from "../task/DetailsTask";
 import FirstPage from "../FirtsPage";
 
 function Nav() {
@@ -16,7 +16,7 @@ function Nav() {
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="Register" component={Register}/>
                 <Stack.Screen name="AddList" component={AddList}/>
-                <Stack.Screen name="Task" component={Task}/>
+                <Stack.Screen name="Task" component={DetailsTask}/>
 
             </Stack.Navigator>
     );

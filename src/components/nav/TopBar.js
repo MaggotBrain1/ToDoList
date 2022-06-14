@@ -4,12 +4,8 @@ import {useNavigation} from "@react-navigation/native";
 import {AntDesign, Entypo, EvilIcons, Ionicons} from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-
-
 const TopBar = ({task ,toggleForm}) =>{
-
     const navigation = useNavigation();
-
     return(
             <View style={styles.nav}>
 

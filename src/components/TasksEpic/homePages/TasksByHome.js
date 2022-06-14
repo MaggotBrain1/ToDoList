@@ -1,63 +1,63 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, View, Text} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CountersContainer from "../Counters.Container";
-import {useNavigation} from "@react-navigation/native";
-import {getStoreData} from "../../StorageDataService/StorageDataService";
-import {Entypo} from "@expo/vector-icons";
+import CarouselTasks from "./CarouselTasks";
+import * as SplashScreen from "expo-splash-screen";
+import {readDataObject} from "../../StorageDataService/StorageDataService";
+
 
  const TaskByHome =  () => {
 
      const [nbAllTasks, setNbAllTasks] = useState(0);
-     const [addTask, setAddTask] = useState(true);
      const [data, setData] = useState([]);
-     const navigation = useNavigation();
+     const [isReady, setIsReady] = useState(false);
 
-     useEffect( () => {
-          readData();
-         console.log( data)
-
+     useEffect(() => {
+         async function prepare() {
+             try {
+                 await SplashScreen.preventAutoHideAsync();
+                 await readDataObject("tasks").then(r=>setData(r))
+             } catch (e) {
+                 console.warn(e);
+             } finally {
+                 // Tell the application to render
+                 setIsReady(true);
+             }
+         }
+         prepare();
      }, []);
 
-     const readData = async () => {
-         try {
-             const tasks = await AsyncStorage.getItem('tasks');
-             const nbTasks = await AsyncStorage.getItem('nbTasks');
-             if (tasks !== null) {
-                 setData(JSON.parse(tasks));
-             }
-             if(nbTasks != null) {
-                 setNbAllTasks(JSON.parse(nbTasks))
-             }
-
-         } catch (e) {
-             alert('Failed to fetch the input from storage');
+     const onLayoutRootView = useCallback(async () => {
+         if (isReady) {
+             await SplashScreen.hideAsync();
          }
-     };
-     const showData = data.map((task)=>
-         <TouchableOpacity onPress={()=>navigation.navigate("Task",{params : {task :task}})} id={task.id}>
-            <Text id={task.id} style={styles.txt}>{task.title}</Text>
-         </TouchableOpacity>)
+     }, [isReady]);
+
+     if (!isReady) {
+         return null;
+     }
+
 
      return (
+
       <View style={styles.container} >
           <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{nbAllTasks}</Text> tâche(s) en attente</Text>
-           <View>{showData}</View>
+          <View>
+             <CarouselTasks data={data}/>
+          </View>
       </View>
+
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        maxHeight:"40%",
-        width:"50%",
+        maxHeight:"36%",
+        width:"100%",
         borderRadius:20,
-        justifyContent:"center",
         alignItems:"center",
-        bottom:"38%",
-        marginLeft:20,
+        top:120,
     },
     txt:{
         fontSize: 22,
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     },
     btnadd:{
         marginTop:50
-    }
+    },
+
 });
 
 

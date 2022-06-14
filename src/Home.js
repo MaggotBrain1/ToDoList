@@ -1,12 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View, ImageBackground} from 'react-native';
 import Header from "./components/_Shared/Header/index";
 import TopBar from "./components/nav/TopBar";
 import TasksByHome from "./components/TasksEpic/homePages/TasksByHome";
 
- const Home = () => {
+ const Home = ({route}) => {
 
-    return (
+
+     return (
         <View style={styles.container}>
             <ImageBackground source={require('../assets/bgHome.jpg')} style={styles.backgroundImage} >
             <Header/>
@@ -22,13 +23,13 @@ import TasksByHome from "./components/TasksEpic/homePages/TasksByHome";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection:"column",
-        backgroundColor: "#00365C",
+        justifyContent:"space-between",
 
     },
     backgroundImage: {
         flex: 1,
         resizeMode:"cover",
+        justifyContent:"space-between",
     },
 });
 

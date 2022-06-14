@@ -11,6 +11,12 @@ export const storeData = async (name, value) => {
     }
 }
 
+export const updateStoreData = async (name,value) =>{
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.mergeItem(name, jsonValue)
+    console.log("la value pour "+ name + " est "+ value)
+}
+
 export const getStoreData = async (name)=> {
     const nbTasks = await AsyncStorage.getItem(name);
     return JSON.parse(nbTasks);

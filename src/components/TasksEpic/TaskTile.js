@@ -5,7 +5,7 @@ import icon_circle from '../../../assets/icon_circle.png';
 import icon_bin from '../../../assets/icon_bin.png';
 import {useNavigation} from "@react-navigation/native";
 
-const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask, item }) => {
+const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask, item,tasks}) => {
     const navigation = useNavigation();
     return(
 
