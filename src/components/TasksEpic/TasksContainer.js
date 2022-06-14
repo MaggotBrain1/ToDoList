@@ -2,32 +2,34 @@ import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from "react-native";
 import TaskList from "./TasksList";
 import TaskForm from "./TaskForm";
-import FloatingButton from "../_Shared/FLoatingButton";
 import {storeData} from "../StorageDataService/StorageDataService";
 
- function  TasksContainer(props) {
+ function  TasksContainer({showForm,toggleForm}) {
      const [tasks, setTasks] = useState([]);
-     const [isFormOpened, setIsFormOpened] = useState(false)
 
      useEffect(()=>{
          storeData('nbTasks',tasks.length).catch();
          storeData('tasksComplet',getTasksCompleted()).catch();
          storeData('tasks', tasks).catch();
-     },[tasks])
+         console.log("showForm",showForm)
+     },[tasks,showForm])
 
 
   /// crééer une nouvelle tâche ///
-     const onAddTask = (title) => {
+     const onAddTask = (title,date,heure) => {
          const newTask = {
              id:new Date().getTime().toString(),
              title: title,
              completed: false,
-             taskDate :new Date(),
              deadLine:null,
              detail:null,
-             dateHeure:null
+             date:date?date:null,
+             heure:heure?heure:null,
+
          }
          setTasks([newTask, ...tasks])
+         toggleForm();
+
 
      };
  /// change le statut de la tâche ///
@@ -62,26 +64,22 @@ import {storeData} from "../StorageDataService/StorageDataService";
              if (task.completed) {
                  counter ++
              }
-
          })
-
-
          return counter
      };
 
- ///  Affiche le formulaire de saisi de tâche au clique sur du floatingButton ///
-     const toggleForm = () => {
-         setIsFormOpened(!isFormOpened)
-     }
-
      return (
          <View style={styles.container}>
-         <View style={styles.countTask}>
-             {isFormOpened && <TaskForm onAddTask={onAddTask}/>}
-         </View>
-             <TaskList tasks={tasks} onChangeStatus={onChangeStatus} onDeleteTask={onDeleteTask} />
-             <View style={styles.container}>
-                <FloatingButton toggleForm={toggleForm} isFormOpened={isFormOpened}/>
+             <View style={styles.taskListContainer}>
+                 <TaskList tasks={tasks} onChangeStatus={onChangeStatus} onDeleteTask={onDeleteTask} />
+             </View>
+             <View style={styles.taskFormContainer}>
+                 {
+                     showForm ?
+                         <TaskForm onAddTask={onAddTask} toggleForm={toggleForm}/>
+                         :
+                         <View></View>
+                 }
              </View>
          </View>
 
@@ -92,14 +90,16 @@ import {storeData} from "../StorageDataService/StorageDataService";
  const styles = StyleSheet.create({
      container:{
          flex: 1,
-         height:"100%",
-
-
+         height:"100%"
      },
-     countTask:{
-         marginTop:-250
-
-
+     taskFormContainer:{
+         position:"absolute",
+         top:"55%"
+     },
+     taskListContainer:{
+         top:"10%",
+         height:"90%"
      }
+
  })
  export default TasksContainer;

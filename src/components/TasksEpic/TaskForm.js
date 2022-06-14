@@ -1,27 +1,46 @@
-import React,{ useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View,TextInput, StyleSheet,Image,TouchableOpacity} from 'react-native';
-import { Entypo } from '@expo/vector-icons';
+import {Entypo, FontAwesome5} from '@expo/vector-icons';
+import ModalDP from "../modals/ModalDP";
+import ModalTime from "../modals/ModalTime";
+import {getFormatedDate} from "react-native-modern-datepicker";
 
 const TaskForm = ({onAddTask}) => {
 
-    const [title, setTitle] = useState('')
+    const [title, setTitle] = useState('');
+    const refsFocus = useRef(null);
+    const [heure, setHeure] = useState('');
+    const [date, setDate] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible1, setModalVisible1] = useState(false);
 
- ///  title prend la valeur du texte saisi dans le textInput ///
+    useEffect(() => {
+        refsFocus.current.focus();
+    });
+
+    const toggleModal = () =>{
+        setModalVisible(!modalVisible)
+    }
+    const toggleModal1 = () =>{
+        setModalVisible1(!modalVisible1)
+
+    }
     const _onChangeText = value => {
         setTitle( value )
     };
 
- /// Ajout d'une tâche lors d'un clique sur  l'image 'send' ou la touche dédiée sur le clavier ///
     const _onPressBtn = () =>{
         if (title.length > 0) {
-            onAddTask(title);
+            onAddTask(title,date,heure);
             setTitle('');
         }
     };
     return(
 
-        <View style={styles.container}>
+         <View style={styles.container}>
             <View style={styles.containerInput}>
+                <FontAwesome5 name="calendar" size={30} color="white" />
+
                 <TextInput  textAlign={'center'}
                             value={title}
                             onChangeText={_onChangeText}
@@ -30,12 +49,14 @@ const TaskForm = ({onAddTask}) => {
                             returnKeyType = {"done"}
                             style={{ color:'white' }}
                             onSubmitEditing={_onPressBtn}
+                            ref={refsFocus}
                 />
+
             </View>
-            <TouchableOpacity onPress={_onPressBtn}>
-                <Entypo name="add-to-list" size={30} color="#00365C"style={styles.btn} />
-            </TouchableOpacity>
+             <ModalDP  setDate={setDate}  modalVisible={modalVisible} toggleModal={toggleModal}/>
+             <ModalTime  setHeure={setHeure}  modalVisible1={modalVisible1} toggleModal1={toggleModal1}/>
         </View>
+
 
     );
 }
@@ -46,15 +67,14 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         alignItems: 'center',
         width:"100%",
-        padding:5
+        zIndex:2,
 
     },
     containerInput: {
-        width: '75%',
-        height: '100%',
+        width: '100%',
+        height: 200,
         borderWidth: 2,
         borderColor: '#359BCC',
-        borderRadius: "10%",
         backgroundColor: '#359BCC',
         padding: 10,
     },

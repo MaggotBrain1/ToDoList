@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection:'row',
         position:"absolute",
-        top:"14%",
+        top:"6%",
     },
     day: {
         fontSize: 28,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize: 24,
-        top:4,
+        top:3,
         color:'#3195C9',
     }
 })

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {View, Text, ImageBackground, StyleSheet, TextInput, Image, TouchableOpacity} from "react-native";
 import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
+import TaskForm from "./TasksEpic/TaskForm";
 
 const FirstPage = () => {
     const navigation = useNavigation();
