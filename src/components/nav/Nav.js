@@ -5,13 +5,11 @@ import Login from "../Auth/Login";
 import Register from "../Auth/Register";
 import AddList from "../AddList";
 import DetailsTask from "../task/DetailsTask";
-import FirstPage from "../FirtsPage";
 
 function Nav() {
     const Stack = createNativeStackNavigator();
     return (
-            <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="FirstPage" >
-                <Stack.Screen name="FirstPage" component={FirstPage}/>
+            <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="AddList" >
                 <Stack.Screen name="Home" component={Home}/>
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="Register" component={Register}/>

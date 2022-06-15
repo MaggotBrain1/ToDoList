@@ -1,36 +1,41 @@
+/*
 import {View,Image,Text,StyleSheet,TouchableOpacity} from "react-native";
 import React, {useState} from 'react';
-import { EvilIcons } from '@expo/vector-icons';
-import * as Permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
 import {storeData} from "../StorageDataService/StorageDataService";
+import { Fontisto } from '@expo/vector-icons';
+import * as Location from 'expo-location';
+import * as ImagePicker from "expo-image-picker";
 
+const PhotoItem =(image, setImage) => {
 
-const PhotoItem =() => {
-    const [image, setImage] = useState(null);
-
-    const selectPicture = async () => {
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        const img = await ImagePicker.launchImageLibraryAsync({
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library.
+        
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-            allowsEditing: true,
         });
-        setImage(img)
-        console.log("image.uri ",image.uri)
-        await storeData('pp', image.uri)
-    }
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
     return(
 
         <View style={styles.main_container}>
-            <TouchableOpacity onPress={selectPicture}
+            <TouchableOpacity onPress={()=>pickImage()}
             >
                 {
                     image ?
                         image && <Image source={{uri: image.uri}} style={styles.image}/>
                         :
                         <View style={styles.imageEmpty}>
-                            <EvilIcons name="user" size={200} style={styles.image} />
+                            <Fontisto name="picture" size={30} color="#02A1CD" />
                         </View>
                 }
             </TouchableOpacity>
@@ -45,10 +50,9 @@ const styles = StyleSheet.create({
         borderRadius:100,
     },
     image: {
-        height:200,
-        width:200,
+        height:30,
+        width:30,
         borderRadius:100,
-        color:"#00365C"
     },
     imageEmpty:{
         height:200,
@@ -60,4 +64,65 @@ const styles = StyleSheet.create({
 
 })
 export default PhotoItem
+
+ */
+import React, { useState } from 'react';
+import {Image, View, Platform,StyleSheet,TouchableOpacity } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import {Fontisto} from "@expo/vector-icons";
+
+export default function PhotoItem({image, setImage}) {
+
+    const [img, setImg] = useState(null);
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log("result depuis PhotoItem",result);
+
+        if (!result.cancelled) {
+            setImg(result.uri);
+            setImage(img);
+        }
+    };
+
+    return (
+
+    <View style={styles.main_container}>
+        <TouchableOpacity onPress={pickImage}
+        >
+            <View style={styles.imageEmpty}>
+                <Fontisto name="picture" size={30} color="#02A1CD" />
+            </View>
+            {img && <Image source={{ uri: img }} style={{ width: 200, height: 200 }} />}
+        </TouchableOpacity>
+    </View>
+    );
+}
+const styles = StyleSheet.create({
+    main_container: {
+        flex:1,
+        height:200,
+        width:200,
+        borderRadius:100,
+    },
+    image: {
+        height:30,
+        width:30,
+        borderRadius:100,
+    },
+    imageEmpty:{
+        height:200,
+        width:200,
+        borderRadius:100,
+    },
+
+
+
+})
 

@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import {AntDesign, Entypo, EvilIcons, Ionicons} from '@expo/vector-icons';
+import {AntDesign, Entypo, Ionicons} from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
 const TopBar = ({task ,toggleForm}) =>{
@@ -13,7 +13,7 @@ const TopBar = ({task ,toggleForm}) =>{
                         <Entypo name="add-to-list" size={36} color="#00365C"style={styles.btn} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={()=>navigation.navigate("Home",{params : {task :task}})}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
                         <AntDesign name="home" size={36} color="#00365C" />
                     </TouchableOpacity>
 

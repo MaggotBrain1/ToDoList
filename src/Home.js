@@ -4,7 +4,7 @@ import Header from "./components/_Shared/Header/index";
 import TopBar from "./components/nav/TopBar";
 import TasksByHome from "./components/TasksEpic/homePages/TasksByHome";
 
- const Home = ({route}) => {
+ const Home = () => {
 
 
      return (

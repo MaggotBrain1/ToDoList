@@ -9,6 +9,7 @@ import ModalTime from "../modals/ModalTime";
 import {readDataObject, storeData} from "../StorageDataService/StorageDataService";
 import * as SplashScreen from 'expo-splash-screen';
 import ModalDeadLine from "../modals/ModalDeadLine";
+import PhotoItem from "../photo/PhotoItem";
 
 
 const DetailsTask = ({route,navigation }) => {
@@ -22,6 +23,7 @@ const DetailsTask = ({route,navigation }) => {
     const [detail, setDetail] = useState(item.detail);
     const [date, setDate] = useState(item.date);
     const [heure, setHeure] = useState(item.heure);
+    const [image, setImage] = useState(item.heure);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible1, setModalVisible1] = useState(false);
@@ -33,6 +35,8 @@ const DetailsTask = ({route,navigation }) => {
 
 
     useEffect(() => {
+        console.log("image dans detailsTask",item.image)
+
         async function prepare() {
             try {
                 await SplashScreen.preventAutoHideAsync();
@@ -58,24 +62,6 @@ const DetailsTask = ({route,navigation }) => {
         return null;
     }
 
-
- /*   useEffect(() => {
-        if(date != null) {
-            const dateFormat = getFormatedDate(date, "DD/MM/YYYY");
-            item.date = dateFormat
-        }
-        if(heure != null){
-            item.heure = heure.toString();
-        }
-    }, [date,heure]);
-
-  */
-
-
-
-    const handleTriggerEdit = (item)=>{
-        setToDoBeEdited(item);
-    }
     const handleEditToDo = (editTodo)=>{
         const updateTask ={
             id: id,
@@ -84,7 +70,8 @@ const DetailsTask = ({route,navigation }) => {
             deadLine: deadLine,
             detail: detail,
             date: date,
-            heure: heure
+            heure: heure,
+            image: image
         };
         const newData = [...data];
         const dataIndex = data.findIndex((item)=> item.id === updateTask.id);
@@ -116,9 +103,6 @@ const DetailsTask = ({route,navigation }) => {
     const toggleModal2 = () =>{
         setModalVisible2(!modalVisible2)
     }
-
-
-        console.log("data depuis sa mere", data)
 
     return(
             <ImageBackground source={require('../../../assets/bgHome.jpg')} style={styles.backgroundImage} >
@@ -180,6 +164,13 @@ const DetailsTask = ({route,navigation }) => {
                                 placeholderTextColor={ "#00365C"}
                             />
                         </View>
+                        <View  style={styles.lineDetails}>
+                            <PhotoItem image={image} setImage={setImage}/>
+                            <Text style={styles.txt}>
+                                Ajouter une photo à la tâche
+                            </Text>
+                        </View>
+
                     </View>
                     <TouchableOpacity onPress={()=>handleEditToDo()}>
                         <Ionicons name="arrow-back-circle-sharp" size={90} color="#02A1CD" />

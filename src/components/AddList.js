@@ -6,10 +6,10 @@ import TasksContainer from "./TasksEpic/TasksContainer";
 
 export default function AddList() {
     const [showForm, setShowForm] = useState(false);
-
     const toggleForm = () => {
         setShowForm(!showForm);
-    }
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../../assets/bgHome.jpg')} style={styles.backgroundImage} >
@@ -18,8 +18,6 @@ export default function AddList() {
                 <TopBar toggleForm={()=>toggleForm()}/>
             </ImageBackground>
         </View>
-
-
     );
 }
 

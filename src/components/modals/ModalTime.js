@@ -10,36 +10,43 @@ const ModalTime = ({setHeure,modalVisible1,toggleModal1}) =>{
         setHeure(selectedTime)
     }
     return(
-        <View style={styles.modal} >
+        <View  >
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible1}
             >
+                <View style={styles.container}>
                 <DatePicker style={styles.datePicker}
                             mode="time"
                             minuteInterval={1}
                             onTimeChange={selectedTime => handleTime(selectedTime)}
                             />
-                <TouchableOpacity onPress={()=>toggleModal1()} style={styles.btnModal}>
-                    <AntDesign name="checkcircle" size={70} color="#00365C" />
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>toggleModal1()} style={styles.btnModal}>
+                        <AntDesign name="checkcircle" size={70} color="#00365C" />
+                    </TouchableOpacity>
+                </View>
+
             </Modal>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent:"center",
+        alignItems:"center"
+    },
     datePicker:{
-        marginTop: "81.5%",
         width:"80%",
         borderRadius:20,
-
-
+        marginTop:"50%",
     },
     btnModal:{
         alignItems:"center",
-        marginTop:12
+        top:84,
+        left:2
     }
 });
 

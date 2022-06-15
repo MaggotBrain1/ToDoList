@@ -18,6 +18,8 @@ import DatePicker from "react-native-modern-datepicker";
              try {
                  await SplashScreen.preventAutoHideAsync();
                  await readDataObject("tasks").then(r=>setData(r))
+                 console.log("data task", data)
+
              } catch (e) {
                  console.warn(e);
              } finally {
@@ -46,7 +48,7 @@ import DatePicker from "react-native-modern-datepicker";
           <View>
              <CarouselTasks data={data}/>
           </View>
-          <View style={styles.calandar}>
+          <View style={styles.calendar}>
               <DatePicker
                   options={{
                       backgroundColor: 'rgba(0, 44, 62, 0.5)',
@@ -93,10 +95,8 @@ const styles = StyleSheet.create({
     btnadd:{
         marginTop:50
     },
-    calandar:{
-        width:"100%",
-        justifyContent:"center",
-        alignItems:"center"
+    calendar:{
+        width:"72%",
 
     }
 

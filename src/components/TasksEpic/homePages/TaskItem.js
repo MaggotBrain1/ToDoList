@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, Text, View, StyleSheet,TouchableOpacity} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 
 const TaskItem = ({title, item }) => {
     const navigation = useNavigation();
+    useEffect(()=>{
+        console.log("item depuis task item",item);
+    },[item])
     return(
 
         <View style={styles.container}>
