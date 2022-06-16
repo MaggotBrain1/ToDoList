@@ -1,70 +1,41 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput,Alert} from "react-native";
+import React, {useState} from "react";
+import {StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput, Alert} from "react-native";
 import { FontAwesome} from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 import ModalDP from "../modals/ModalDP";
 import ModalTime from "../modals/ModalTime";
-import {readDataObject, storeData} from "../StorageDataService/StorageDataService";
-import * as SplashScreen from 'expo-splash-screen';
+import {storeData} from "../StorageDataService/StorageDataService";
 import ModalDeadLine from "../modals/ModalDeadLine";
 import PhotoItem from "../photo/PhotoItem";
-
+import BottomBar from "../nav/BottomBar";
 
 const DetailsTask = ({route,navigation }) => {
 
-    let item = route.params.params["task"];
+    const btnStyle = {    marginTop:-4.6, marginLeft:0.5}
 
-    const [id, setId] = useState(item.id);
+    let item = route.params["item"];
+    let idItem = item.id;
+    let tasks = route.params["tasks"];
+
     const [title, setTitle] = useState(item.title);
     const [completed, setCompleted] = useState(item.completed);
     const [deadLine, setDeadLine] = useState(item.deadLine);
     const [detail, setDetail] = useState(item.detail);
     const [date, setDate] = useState(item.date);
     const [heure, setHeure] = useState(item.heure);
-    const [image, setImage] = useState(item.heure);
+    const [image, setImage] = useState(item.image);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible1, setModalVisible1] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
     const [data, setData] = useState([]);
-    const [isReady, setIsReady] = useState(false);
-    const [toDoBeEdited, setToDoBeEdited] = useState(null)
 
-
-
-    useEffect(() => {
-        console.log("image dans detailsTask",item.image)
-
-        async function prepare() {
-            try {
-                await SplashScreen.preventAutoHideAsync();
-                await readDataObject("tasks").then(r=>setData(r))
-            } catch (e) {
-                console.warn(e);
-            } finally {
-                // Tell the application to render
-                setIsReady(true);
-            }
-        }
-
-        prepare();
-    }, []);
-
-    const onLayoutRootView = useCallback(async () => {
-        if (isReady) {
-            await SplashScreen.hideAsync();
-        }
-    }, [isReady]);
-
-    if (!isReady) {
-        return null;
-    }
-
-    const handleEditToDo = (editTodo)=>{
-        const updateTask ={
-            id: id,
+    const handleEditToDo = ()=>{
+        let newTasks = [...tasks]
+        const updateTask = {
+            id: idItem,
             title: title,
             completed: completed,
             deadLine: deadLine,
@@ -72,14 +43,17 @@ const DetailsTask = ({route,navigation }) => {
             date: date,
             heure: heure,
             image: image
-        };
-        const newData = [...data];
-        const dataIndex = data.findIndex((item)=> item.id === updateTask.id);
-        newData.splice(dataIndex,1,updateTask);
-        setData(newData);
-        setToDoBeEdited(null)
-        storeData("tasks", newData).then(r =>console.log("res",r) )
-        Alert.alert(
+        }
+
+        const dataIndex = tasks.findIndex((item)=> item.id === updateTask.id);
+        newTasks.splice(dataIndex,1,updateTask);
+        setData(...newTasks);
+
+        storeData("tasks", newTasks)
+            .then(() => console.log("on update : ", newTasks))
+            .catch(e => console.warn("err update storage : ",e))
+
+           Alert.alert(
             "Attention",
             "Vous êtes sur le point de modifier cette tâche",
             [
@@ -92,6 +66,7 @@ const DetailsTask = ({route,navigation }) => {
             ]
         );
     }
+
 
 
     const toggleModal = () =>{
@@ -110,6 +85,12 @@ const DetailsTask = ({route,navigation }) => {
 
 
                     <Text style={styles.txtDetail}>Détail de la tâche</Text>
+                    <View  style={styles.taskImg}>
+
+                            <PhotoItem image={image} setImage={setImage}/>
+
+
+                    </View>
                     <View style={styles.containerDetails}>
                         <Text style={styles.txtNameTask}>{title}</Text>
 
@@ -164,24 +145,17 @@ const DetailsTask = ({route,navigation }) => {
                                 placeholderTextColor={ "#00365C"}
                             />
                         </View>
-                        <View  style={styles.lineDetails}>
-                            <PhotoItem image={image} setImage={setImage}/>
-                            <Text style={styles.txt}>
-                                Ajouter une photo à la tâche
-                            </Text>
-                        </View>
+
 
                     </View>
-                    <TouchableOpacity onPress={()=>handleEditToDo()}>
-                        <Ionicons name="arrow-back-circle-sharp" size={90} color="#02A1CD" />
-                    </TouchableOpacity>
+
+
                 </View>
 
                 <ModalDP  setDate={setDate}  modalVisible={modalVisible} toggleModal={toggleModal}/>
                 <ModalTime  setHeure={setHeure}  modalVisible1={modalVisible1} toggleModal1={toggleModal1}/>
                 <ModalDeadLine  setDeadLine={setDeadLine}  modalVisible2={modalVisible2} toggleModal2={toggleModal2}/>
-
-
+                <BottomBar iconName={"save-outline"} size={60} btnStyle={btnStyle} onPressed={()=>handleEditToDo()}/>
             </ImageBackground>
     )
 }
@@ -189,7 +163,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection:"column",
-        alignItems:"center"
+        alignItems:"center",
+
     },
     backgroundImage: {
         flex: 1,
@@ -199,8 +174,7 @@ const styles = StyleSheet.create({
         textAlign:"center",
         color:"#00365C",
         fontSize:25,
-        marginTop:"40%",
-        marginBottom:"10%"
+        marginTop:"20%",
     },
     txtNameTask:{
         color:"#02A1CD",
@@ -215,10 +189,11 @@ const styles = StyleSheet.create({
     },
     containerDetails:{
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        height:"60%",
+        height:"50%",
         width:"90%",
         borderRadius:20,
         alignItems:"center",
+        marginBottom:"16%",
 
     },
     lineDetails:{
@@ -240,6 +215,12 @@ const styles = StyleSheet.create({
     btnModal:{
         alignItems:"center",
         marginTop:12
+    },
+    taskImg:{
+        flex:1,
+        borderRadius:100,
+        marginTop:"6%",
+
     }
 });
 

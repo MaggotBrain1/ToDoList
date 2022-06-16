@@ -3,7 +3,7 @@ import {FlatList} from "react-native";
 import TaskItem from "./TaskItem";
 
 
-const CarouselTasks = ({ data }) => {
+const CarouselTasks = ({ tasks }) => {
 
     const _renderItem = ({ item }) =>
         <TaskItem
@@ -11,11 +11,12 @@ const CarouselTasks = ({ data }) => {
             completed={item.completed}
             title={item.title}
             item={item}
+            tasks={tasks}
         />
     return (
         <FlatList
             horizontal={true}
-            data={data}
+            data={tasks}
             renderItem={_renderItem}
             keyExtactor={item => item.id}
         />

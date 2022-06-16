@@ -1,22 +1,19 @@
 import React from 'react';
 import {StyleSheet, View, ImageBackground} from 'react-native';
 import Header from "./components/_Shared/Header/index";
-import TopBar from "./components/nav/TopBar";
+import BottomBar from "./components/nav/BottomBar";
 import TasksByHome from "./components/TasksEpic/homePages/TasksByHome";
 
  const Home = () => {
-
-
+     const btnStyle = {  marginTop:-7, marginLeft:-4.5}
      return (
         <View style={styles.container}>
             <ImageBackground source={require('../assets/bgHome.jpg')} style={styles.backgroundImage} >
-            <Header/>
-            <TasksByHome/>
+                <Header/>
+                <TasksByHome/>
+                <BottomBar iconName={"ios-search-circle"} size={100} onPressed={()=>console.log("coucou")} btnStyle={btnStyle} />
             </ImageBackground>
-            <TopBar/>
         </View>
-
-
     );
 }
 

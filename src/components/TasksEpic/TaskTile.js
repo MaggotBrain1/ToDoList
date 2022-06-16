@@ -16,7 +16,7 @@ const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask, item,task
                 style={styles.iconCircle}
                 source={completed ? icon_check : icon_circle }/>
              </TouchableOpacity>
-               <TouchableOpacity onPress={() => navigation.navigate('Task',{params : {task :item}})}>
+               <TouchableOpacity onPress={() => navigation.navigate('Task',{item :item ,tasks: tasks} )}>
                <Text style={[styles.title, {color: completed ? '#02A1CD' : '#00365C'}]}>{title}</Text>
                </TouchableOpacity>
            </View>
@@ -26,7 +26,6 @@ const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask, item,task
                 />
            </TouchableOpacity>
         </View>
-
     );
 }
 

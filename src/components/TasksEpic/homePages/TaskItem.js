@@ -1,17 +1,20 @@
-import React, {useEffect} from 'react';
-import {Image, Text, View, StyleSheet,TouchableOpacity} from 'react-native';
+import React,  from 'react';
+import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 
-const TaskItem = ({title, item }) => {
+const TaskItem = ({title, item,tasks }) => {
     const navigation = useNavigation();
-    useEffect(()=>{
-        console.log("item depuis task item",item);
-    },[item])
+
     return(
 
-        <View style={styles.container}>
-                <TouchableOpacity onPress={() => navigation.navigate('Task',{params : {task :item}})} style={styles.subCont} >
-                    <Text style={styles.title}>{title}</Text>
+            <View style={styles.container}>
+                <TouchableOpacity onPress={() => navigation.navigate('Task', {item :item, tasks:tasks}  ) } style={styles.subCont} >
+                   <View style={styles.headTask}>
+                       <Text style={styles.title}>{title}</Text>
+                       <Image source={{ uri: item.image }} style={styles.imageTask}/>
+                   </View>
+
+
                     <View style={styles.rowTask}>
                         <Text style={styles.labelRow}>heure :</Text>
                         {item.heure ?
@@ -47,7 +50,7 @@ const TaskItem = ({title, item }) => {
                         }
                     </View>
                 </TouchableOpacity>
-        </View>
+            </View>
 
     );
 }
@@ -55,14 +58,24 @@ const TaskItem = ({title, item }) => {
 const styles = StyleSheet.create ({
     container:{
         flex:1,
-        marginTop: 20,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
         borderRadius:"22%",
         padding:16,
         margin:12,
         width:350,
-        textAlign:"center"
+        textAlign:"center",
     },
+    headTask:{
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"space-between"
+    },
+    imageTask:{
+        height:80,
+        width:80,
+        borderRadius:100,
+    },
+
     subCont:{
         justifyContent:"space-evenly",
         height:"100%"
@@ -71,9 +84,7 @@ const styles = StyleSheet.create ({
     title: {
         fontSize:22,
         color:'#02A1CD',
-        textAlign:"center",
-
-
+        textAlign:"center"
     },
     dateTask:{
         color:'#00365C'
@@ -92,7 +103,7 @@ const styles = StyleSheet.create ({
     },
     rowTask:{
         flexDirection:"row"
-    }
+    },
 })
 
 export default  TaskItem;

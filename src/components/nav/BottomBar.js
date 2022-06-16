@@ -1,28 +1,30 @@
-import React from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
+import React,  from 'react';
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign, Entypo, Ionicons} from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-const TopBar = ({task ,toggleForm}) =>{
+const BottomBar = ({iconName,onPressed,size,btnStyle}) =>{
+
     const navigation = useNavigation();
+
     return(
             <View style={styles.nav}>
 
                     <TouchableOpacity onPress={()=>navigation.navigate("AddList")}  >
-                        <Entypo name="add-to-list" size={36} color="#00365C"style={styles.btn} />
+                        <Entypo name="add-to-list" size={36} color="#00365C" />
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
                         <AntDesign name="home" size={36} color="#00365C" />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.focusView} onPress={()=>toggleForm()}>
-                        <Ionicons name="add-circle" size={90} color="#359BCC" style={styles.btn} />
+                    <TouchableOpacity style={styles.focusView} onPress={()=>onPressed()} >
+                            <Ionicons name={iconName} size={size} color="#359BCC" style={btnStyle} />
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
-                                <View  style={styles.image}>
+                                <View style={styles.image}>
                                     <AntDesign name="user" size={36} style={styles.image} color="#00365C"/>
                                 </View>
                     </TouchableOpacity>
@@ -36,11 +38,6 @@ const TopBar = ({task ,toggleForm}) =>{
 };
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        height:90,
-        width:90
-    },
 
     nav:{
         height:86,
@@ -71,21 +68,21 @@ const styles = StyleSheet.create({
         borderRadius:100
     },
     focusView: {
-        bottom:40,
-        height:92,
-        width:92,
+        bottom:35,
+        height:90,
+        width:90,
         borderRadius:"100%",
         backgroundColor:"#005C8E",
+        justifyContent:"center",
+        alignItems:"center",
+
+    }
 
 
-},
-    btn:{
-        marginLeft:4,
-        top:-2
-    },
+
 
 
 });
 
 
-export default TopBar;
+export default BottomBar;

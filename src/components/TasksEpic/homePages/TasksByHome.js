@@ -1,53 +1,30 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View,TouchableOpacity, Text} from 'react-native';
 import CarouselTasks from "./CarouselTasks";
-import * as SplashScreen from "expo-splash-screen";
 import {readDataObject} from "../../StorageDataService/StorageDataService";
 import DatePicker from "react-native-modern-datepicker";
+import {useFocusEffect} from "@react-navigation/native";
+import CarouselListView from "./CarouselListView";
 
 
 
  const TaskByHome =  () => {
 
-     const [nbAllTasks, setNbAllTasks] = useState(0);
-     const [data, setData] = useState([]);
-     const [isReady, setIsReady] = useState(false);
+     const [tasks, setTasks] = useState([]);
+     const [listView, setListView] = useState(false);
 
-     useEffect(() => {
-         async function prepare() {
-             try {
-                 await SplashScreen.preventAutoHideAsync();
-                 await readDataObject("tasks").then(r=>setData(r))
-                 console.log("data task", data)
-
-             } catch (e) {
-                 console.warn(e);
-             } finally {
-                 // Tell the application to render
-                 setIsReady(true);
-             }
-         }
-         prepare();
-     }, []);
-
-     const onLayoutRootView = useCallback(async () => {
-         if (isReady) {
-             await SplashScreen.hideAsync();
-         }
-     }, [isReady]);
-
-     if (!isReady) {
-         return null;
-     }
-
+     useFocusEffect(
+         React.useCallback(() => {
+             readDataObject("tasks")
+                 .then( r => setTasks(r) )
+                 .catch(e => console.warn("err à la récuperation de la liste de tasks : ",e));
+         }, [])
+     );
 
      return (
 
       <View style={styles.container} >
-          <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{data.length}</Text> tâche(s) en attente</Text>
-          <View>
-             <CarouselTasks data={data}/>
-          </View>
+          <View style={styles.calendarContainer}>
           <View style={styles.calendar}>
               <DatePicker
                   options={{
@@ -65,6 +42,30 @@ import DatePicker from "react-native-modern-datepicker";
                   style={{ borderRadius: 10 }}
               />
           </View>
+              <View style={styles.btnContainer}>
+                      <TouchableOpacity onPress={()=>setListView(false)}>
+                          <Text style={styles.twtBtn} >Cards</Text>
+                      </TouchableOpacity>
+                  <View style={styles.hairline} />
+                  <TouchableOpacity onPress={()=>setListView(true)}>
+                          <Text  style={styles.twtBtn}>Liste</Text>
+                      </TouchableOpacity>
+                  </View>
+
+              <View style={styles.countTask}>
+                  <Text style={styles.txtNbTask}><Text style={styles.NbTask}>{tasks.length}</Text> tâche(s)</Text>
+              </View>
+
+          </View>
+          {listView ?
+              <View style={styles.listCar}>
+                  <CarouselListView tasks={tasks} />
+              </View>
+              :
+              <View style={styles.cardCar}>
+                  <CarouselTasks tasks={tasks}/>
+              </View>
+          }
       </View>
 
     );
@@ -73,11 +74,11 @@ import DatePicker from "react-native-modern-datepicker";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        maxHeight:"36%",
         width:"100%",
         borderRadius:20,
         alignItems:"center",
-        top:120,
+        top:90,
+
 
     },
     txt:{
@@ -95,10 +96,55 @@ const styles = StyleSheet.create({
     btnadd:{
         marginTop:50
     },
-    calendar:{
-        width:"72%",
+    calendarContainer:{
+        top:20,
+        flex:1,
+        width:"100%",
+        flexDirection:"row",
+        justifyContent:"space-evenly",
+        flexWrap:"wrap"
 
+    },
+    calendar:{
+        width:"60%",
+    },
+    btnContainer:{
+        backgroundColor: 'rgba(0, 42, 78, 0.6)',
+        flexDirection:"column",
+        height:150,
+        width:120,
+        borderRadius:8,
+        alignItems:"center",
+        alignContent:"center",
+        justifyContent:"space-evenly",
+    },
+    twtBtn:{
+        color:"#D3EAF0",
+        fontSize: 16
+    },
+
+    hairline: {
+        backgroundColor: '#00365C',
+        height: 1,
+        width: 80,
+        opacity:0.4
+    },
+    cardCar:{
+        alignSelf:"flex-end",
+        maxHeight:"33%",
+        bottom:240,
+
+    },
+    listCar:{
+        maxHeight:"64%",
+        bottom:120,
+        justifyContent:"center",
+    },
+    countTask:{
+        marginTop: -80,
+        marginLeft:260
     }
+
 
 });
 

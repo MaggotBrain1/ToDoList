@@ -8,6 +8,7 @@ import DetailsTask from "../task/DetailsTask";
 
 function Nav() {
     const Stack = createNativeStackNavigator();
+
     return (
             <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="AddList" >
                 <Stack.Screen name="Home" component={Home}/>
@@ -15,7 +16,6 @@ function Nav() {
                 <Stack.Screen name="Register" component={Register}/>
                 <Stack.Screen name="AddList" component={AddList}/>
                 <Stack.Screen name="Task" component={DetailsTask}/>
-
             </Stack.Navigator>
     );
 }

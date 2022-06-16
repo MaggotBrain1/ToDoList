@@ -1,21 +1,23 @@
-import React, {useRef, useState} from 'react';
-import { StyleSheet, SafeAreaView,View,ImageBackground } from 'react-native';
-import TopBar from "./nav/TopBar";
+import React, { useState} from 'react';
+import { StyleSheet,View,ImageBackground } from 'react-native';
+import BottomBar from "./nav/BottomBar";
 import Header from "./_Shared/Header";
 import TasksContainer from "./TasksEpic/TasksContainer";
 
 export default function AddList() {
+
     const [showForm, setShowForm] = useState(false);
     const toggleForm = () => {
         setShowForm(!showForm);
     };
+    const btnStyle = {    marginTop:-4.6, marginLeft:0.5}
 
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../../assets/bgHome.jpg')} style={styles.backgroundImage} >
                 <Header/>
                 <TasksContainer showForm={showForm} toggleForm={()=>toggleForm()}/>
-                <TopBar toggleForm={()=>toggleForm()}/>
+                <BottomBar iconName={"add-circle"} size={95} btnStyle={btnStyle} onPressed={()=>toggleForm()}/>
             </ImageBackground>
         </View>
     );

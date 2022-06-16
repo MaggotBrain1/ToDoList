@@ -87,42 +87,46 @@ export default function PhotoItem({image, setImage}) {
 
         if (!result.cancelled) {
             setImg(result.uri);
-            setImage(img);
+            setImage(result.uri);
         }
     };
 
     return (
 
-    <View style={styles.main_container}>
-        <TouchableOpacity onPress={pickImage}
-        >
-            <View style={styles.imageEmpty}>
-                <Fontisto name="picture" size={30} color="#02A1CD" />
-            </View>
-            {img && <Image source={{ uri: img }} style={{ width: 200, height: 200 }} />}
+    <View>
+        <TouchableOpacity onPress={pickImage} >
+            {image ? <Image source={{ uri: image }}  style={styles.taskImg}/>
+            :
+                <View style={styles.emptyPick}>
+                    <Fontisto name="picture" size={60} color="#02A1CD" />
+                </View>
+            }
         </TouchableOpacity>
     </View>
     );
 }
+
 const styles = StyleSheet.create({
-    main_container: {
-        flex:1,
-        height:200,
-        width:200,
+
+    taskImg:{
+        width:160,
+        height:160,
         borderRadius:100,
     },
-    image: {
-        height:30,
-        width:30,
+    emptyPick:{
+        width:160,
+        height:160,
         borderRadius:100,
-    },
-    imageEmpty:{
-        height:200,
-        width:200,
-        borderRadius:100,
-    },
+        borderWidth:8,
+        borderColor:"#02A1CD",
+        alignContent:"center",
+        justifyContent:"center",
+        alignItems:"center"
+    }
 
 
 
-})
+
+});
+
 

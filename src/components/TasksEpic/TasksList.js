@@ -2,10 +2,7 @@ import React from 'react'
 import {FlatList} from "react-native";
 import TaskTile from "./TaskTile";
 
-
 const TaskList = ({ tasks, onChangeStatus, onDeleteTask }) => {
-
-
 
     const _renderItem = ({ item }) =>
         <TaskTile
@@ -23,9 +20,6 @@ const TaskList = ({ tasks, onChangeStatus, onDeleteTask }) => {
          renderItem={_renderItem}
          keyExtactor={item => item.id}
          />
-
     );
-
 }
-
 export default TaskList;
