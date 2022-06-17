@@ -16,7 +16,10 @@ const ModalDP = ({setDate,modalVisible,toggleModal}) =>{
             <DatePicker
                 style={styles.datePicker}
                 onSelectedChange={date => setDate(date)}
-                mode={"calendar"}/>
+                mode={"calendar"}
+                minimumDate={new Date().toISOString()}
+                current={new Date().toISOString()}
+            />
             <TouchableOpacity onPress={()=>toggleModal()} style={styles.btnModal}>
                 <AntDesign name="checkcircle" size={70} color="#00365C" />
             </TouchableOpacity>

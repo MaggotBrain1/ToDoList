@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {FlatList} from "react-native";
 import TaskItem from "./TaskItem";
 
 
-const CarouselTasks = ({ tasks }) => {
+const CarouselTasks = ({ tasks,setTaskFocus }) => {
 
     const _renderItem = ({ item }) =>
         <TaskItem
@@ -12,6 +12,7 @@ const CarouselTasks = ({ tasks }) => {
             title={item.title}
             item={item}
             tasks={tasks}
+            setTaskFocus={setTaskFocus}
         />
     return (
         <FlatList

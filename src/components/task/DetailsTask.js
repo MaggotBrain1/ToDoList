@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {StyleSheet, View, Text, ImageBackground, TouchableOpacity, TextInput, Alert} from "react-native";
-import { FontAwesome} from '@expo/vector-icons';
+import {AntDesign, FontAwesome} from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -136,7 +136,7 @@ const DetailsTask = ({route,navigation }) => {
                         </View>
 
                         <View style={styles.lineDetails}>
-                            <FontAwesome name="tasks" size={30} color="#02A1CD" />
+                            <AntDesign name="edit" size={30} color="#02A1CD" />
                             <TextInput
                                 style={styles.input}
                                 onChangeText={setDetail}

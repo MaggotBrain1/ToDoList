@@ -1,4 +1,4 @@
-import React,  from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign, Entypo, Ionicons} from '@expo/vector-icons';

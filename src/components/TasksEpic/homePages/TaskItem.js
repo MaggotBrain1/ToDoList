@@ -1,14 +1,26 @@
-import React,  from 'react';
+import React from 'react';
 import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
+import {FontAwesome5, Ionicons} from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
+const TaskItem = ({title, item,tasks,setTaskFocus }) => {
 
-const TaskItem = ({title, item,tasks }) => {
     const navigation = useNavigation();
+    let dateNoFormatSTR = new Date(item.date);
+    let trueMonth =dateNoFormatSTR.getMonth() + 1;
+    let strDate = dateNoFormatSTR.getFullYear()+"-"+0+trueMonth+"-"+dateNoFormatSTR.getDate();    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    let dateUser = item.date;
+    if (typeof dateUser === 'string'){
+        dateUser = new Date(dateUser);
+        dateUser = dateUser.toLocaleDateString('fr-FR',options);
+    }else{
+        dateUser = dateUser.toLocaleDateString('fr-FR',options);
+    }
 
     return(
 
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => navigation.navigate('Task', {item :item, tasks:tasks}  ) } style={styles.subCont} >
+                <TouchableOpacity onLongPress={()=>navigation.navigate('Task', {item :item, tasks:tasks}  )} onPress={()=>setTaskFocus(strDate)} style={styles.subCont} >
                    <View style={styles.headTask}>
                        <Text style={styles.title}>{title}</Text>
                        <Image source={{ uri: item.image }} style={styles.imageTask}/>
@@ -16,7 +28,7 @@ const TaskItem = ({title, item,tasks }) => {
 
 
                     <View style={styles.rowTask}>
-                        <Text style={styles.labelRow}>heure :</Text>
+                        <Ionicons style={styles.labelRow} name="time-outline" size={22} color="#02A1CD" />
                         {item.heure ?
                             <Text style={styles.HeureTask}>{item.heure}</Text>
                             :
@@ -25,16 +37,16 @@ const TaskItem = ({title, item,tasks }) => {
 
                     </View>
                     <View style={styles.rowTask}>
-                        <Text style={styles.labelRow}>date :</Text>
+                        <FontAwesome5 style={styles.labelRow} name="calendar" size={20} color="#02A1CD" />
                         {item.date ?
-                            <Text style={styles.dateTask}>{item.date}</Text>
+                            <Text style={styles.dateTask}>{dateUser}</Text>
                             :
                             <Text style={styles.descTask}> aucune date pour cette tâche</Text>
                         }
 
                     </View>
                     <View style={styles.rowTask}>
-                        <Text style={styles.labelRow}>deadLine :</Text>
+                        <FontAwesome5 style={styles.labelRow} name="calendar-times" size={20} color="#02A1CD" />
                         {item.deadLine ?
                             <Text style={styles.deadlineTask}>{item.deadLine}</Text>
                             :
@@ -42,7 +54,7 @@ const TaskItem = ({title, item,tasks }) => {
                         }
                     </View>
                     <View style={styles.rowTask}>
-                        <Text style={styles.labelRow}>description :</Text>
+                        <AntDesign style={styles.labelRow} name="edit" size={20} color="#02A1CD" />
                         {item.detail ?
                             <Text style={styles.descTask}>{item.detail}</Text>
                              :
@@ -99,10 +111,12 @@ const styles = StyleSheet.create ({
         color:'#00365C'
     },
     labelRow:{
-        color:'#02A1CD'
+        marginRight:16
     },
     rowTask:{
-        flexDirection:"row"
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"flex-start"
     },
 })
 

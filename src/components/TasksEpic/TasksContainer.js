@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from "react-native";
 import TaskForm from "./TaskForm";
 import {readDataObject, storeData} from "../StorageDataService/StorageDataService";
-import {getFormatedDate} from "react-native-modern-datepicker";
 import {useFocusEffect} from "@react-navigation/native";
 
  const  TasksContainer = ({showForm,toggleForm}) => {
@@ -23,14 +22,15 @@ import {useFocusEffect} from "@react-navigation/native";
 
   /// crééer une nouvelle tâche ///
      const onAddTask = (title,date,heure) => {
-         const dateFormat = getFormatedDate(date, "DD/MM/YYYY");
+
+        console.log("date non formatée", typeof date)
          const newTask = {
              id:new Date().getTime().toString(),
              title: title,
              completed: false,
              deadLine:null,
              detail:null,
-             date:date?dateFormat:null,
+             date:date?new Date(date):new Date(),
              heure:heure?heure:null,
              image:null
          }

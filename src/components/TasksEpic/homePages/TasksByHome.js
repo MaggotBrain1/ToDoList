@@ -12,14 +12,21 @@ import CarouselListView from "./CarouselListView";
 
      const [tasks, setTasks] = useState([]);
      const [listView, setListView] = useState(false);
+     let dateNoFormatSTR = new Date();
+     let trueMonth =dateNoFormatSTR.getMonth() + 1;
+     let defaultSelectedDate =dateNoFormatSTR.getFullYear()+"-"+0+trueMonth+"-"+dateNoFormatSTR.getDate();
+     const [taskFocus, setTaskFocus] = useState();
+
 
      useFocusEffect(
          React.useCallback(() => {
              readDataObject("tasks")
                  .then( r => setTasks(r) )
                  .catch(e => console.warn("err à la récuperation de la liste de tasks : ",e));
-         }, [])
+             console.log("taskFocus   "+taskFocus)
+         }, [taskFocus])
      );
+
 
      return (
 
@@ -35,8 +42,8 @@ import CarouselListView from "./CarouselListView";
                       mainColor: '#5AC1E3',
                       textSecondaryColor: '#5AC1E3',
                   }}
-                  current="2020-07-13"
-                  selected="2020-07-23"
+                  current={taskFocus}
+                  selected={taskFocus}
                   mode="calendar"
                   minuteInterval={30}
                   style={{ borderRadius: 10 }}
@@ -63,7 +70,7 @@ import CarouselListView from "./CarouselListView";
               </View>
               :
               <View style={styles.cardCar}>
-                  <CarouselTasks tasks={tasks}/>
+                  <CarouselTasks tasks={tasks} setTaskFocus={setTaskFocus}/>
               </View>
           }
       </View>
