@@ -16,8 +16,8 @@ export default function AddList() {
         <View style={styles.container}>
             <ImageBackground source={require('../../assets/bgHome.jpg')} style={styles.backgroundImage} >
                 <Header/>
-                <TasksContainer showForm={showForm} toggleForm={()=>toggleForm()}/>
-                <BottomBar iconName={"add-circle"} size={95} btnStyle={btnStyle} onPressed={()=>toggleForm()}/>
+                <TasksContainer showForm={showForm} setShowForm={setShowForm}/>
+                <BottomBar iconName={"add-circle"} size={95} btnStyle={btnStyle} onPressed={toggleForm}/>
             </ImageBackground>
         </View>
     );

@@ -5,6 +5,8 @@ import TaskItem from "./TaskItem";
 
 const CarouselTasks = ({ tasks,setTaskFocus }) => {
 
+    console.log("Render de CarouselTasks");
+
     const _renderItem = ({ item }) =>
         <TaskItem
             id={item.id}
@@ -12,7 +14,6 @@ const CarouselTasks = ({ tasks,setTaskFocus }) => {
             title={item.title}
             item={item}
             tasks={tasks}
-            setTaskFocus={setTaskFocus}
         />
     return (
         <FlatList

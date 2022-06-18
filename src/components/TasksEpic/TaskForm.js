@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, TextInput, StyleSheet, TouchableOpacity, Text} from 'react-native';
-import { FontAwesome5, Ionicons} from '@expo/vector-icons';
+import { FontAwesome5, Ionicons,AntDesign} from '@expo/vector-icons';
 import ModalDP from "../modals/ModalDP";
 import ModalTime from "../modals/ModalTime";
+import {convertDateToFullString} from "./homePages/TaskItem";
 
 const TaskForm = ({onAddTask}) => {
 
@@ -12,7 +13,10 @@ const TaskForm = ({onAddTask}) => {
     const [date, setDate] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible1, setModalVisible1] = useState(false);
-
+    let dateF;
+    if (date !== null) {
+         dateF = convertDateToFullString(date);
+    }
     useEffect(() => {
         refsFocus.current.focus();
     });
@@ -29,64 +33,62 @@ const TaskForm = ({onAddTask}) => {
     };
 
     const _onPressBtn = () =>{
-        if (title.length > 0) {
             onAddTask(title,date,heure);
             setTitle('');
-        }
     };
     return(
 
-         <View style={styles.container}>
-            <View style={styles.containerInput}>
+            <View style={styles.container}>
+                 <View style={styles.containerInput}>
 
-                <View style={styles.lineDetails}>
-                    <FontAwesome5 name="calendar" size={30} color="white" />
-                    <TextInput  textAlign={'center'}
-                                value={title}
-                                onChangeText={_onChangeText}
-                                placeholder = "Créer une nouvelle tâche"
-                                placeholderTextColor='#B9D4E5'
-                                returnKeyType = {"done"}
-                                style={{ color:'white' }}
-                                onSubmitEditing={_onPressBtn}
-                                ref={refsFocus}
-                    />
-                </View>
+                    <View style={styles.lineDetails}>
+                        <AntDesign name="tagso" size={33} color="white" />
+                        <TextInput  textAlign={'center'}
+                                    value={title}
+                                    onChangeText={_onChangeText}
+                                    placeholder = "Créer une nouvelle tâche"
+                                    placeholderTextColor='#B9D4E5'
+                                    returnKeyType = {"done"}
+                                    style={{ color:'white' }}
+                                    onSubmitEditing={_onPressBtn}
+                                    ref={refsFocus}
+                        />
+                    </View>
 
-                <View style={styles.lineDetails}>
-                    <TouchableOpacity onPress={()=>setModalVisible1(true)}>
-                        <Ionicons name="time-outline" size={32} color="white" />
-                    </TouchableOpacity>
-                    {heure?
-                        <Text style={styles.txt}>
-                            {heure.toString()}
-                        </Text>
-                        :
-                        <Text style={styles.txt}>
-                            Ajouter une heure à tâche
-                        </Text>
-                    }
-                </View>
+                    <View style={styles.lineDetails}>
+                        <TouchableOpacity onPress={()=>setModalVisible1(true)}>
+                            <Ionicons name="time-outline" size={32} color="white" />
+                        </TouchableOpacity>
+                        {heure?
+                            <Text style={styles.txt}>
+                                {heure.toString()}
+                            </Text>
+                            :
+                            <Text style={styles.txt}>
+                                Ajouter une heure à tâche
+                            </Text>
+                        }
+                    </View>
 
-                <View style={styles.lineDetails}>
-                    <TouchableOpacity onPress={()=>setModalVisible(true)}>
-                        <FontAwesome5 name="calendar" size={30} color="white" />
-                    </TouchableOpacity>
+                    <View style={styles.lineDetails}>
+                        <TouchableOpacity onPress={()=>setModalVisible(true)}>
+                            <FontAwesome5 name="calendar" size={30} color="white" />
+                        </TouchableOpacity>
 
-                    {date? <Text style={styles.txt}>
-                            {date}
-                        </Text>
-                        :
-                        <Text style={styles.txt}>
-                            Ajouter une date pour à la tâche
-                        </Text>
-                    }
-                </View>
-
+                        {date? <Text style={styles.txt}>
+                                {dateF}
+                            </Text>
+                            :
+                            <Text style={styles.txt}>
+                                Ajouter une date pour à la tâche
+                            </Text>
+                        }
+                    </View>
+                  </View>
+                <ModalDP  setDate={setDate}  modalVisible={modalVisible} toggleModal={toggleModal}/>
+                <ModalTime  setHeure={setHeure}  modalVisible1={modalVisible1} toggleModal1={toggleModal1}/>
             </View>
-             <ModalDP  setDate={setDate}  modalVisible={modalVisible} toggleModal={toggleModal}/>
-             <ModalTime  setHeure={setHeure}  modalVisible1={modalVisible1} toggleModal1={toggleModal1}/>
-        </View>
+
 
 
     );
@@ -94,26 +96,18 @@ const TaskForm = ({onAddTask}) => {
 
 const styles = StyleSheet.create({
     container:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems: 'center',
-        width:"100%",
-        zIndex:2,
-
+        width: '100%',
+        height: "100%",
+        backgroundColor: '#359BCC',
     },
     containerInput: {
-        width: '100%',
-        height: 230,
-        borderWidth: 2,
-        borderColor: '#359BCC',
-        backgroundColor: '#359BCC',
-        padding: 10,
+        justifyContent:"flex-start"
     },
     btn:{
         right:15,
     },
     lineDetails:{
-        margin:"5%",
+        margin:"3.5%",
         width:"90%",
         justifyContent:"space-between",
         flexDirection:"row",

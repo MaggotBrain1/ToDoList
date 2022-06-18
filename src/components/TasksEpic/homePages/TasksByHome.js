@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View,TouchableOpacity, Text} from 'react-native';
 import CarouselTasks from "./CarouselTasks";
 import {readDataObject} from "../../StorageDataService/StorageDataService";
 import DatePicker from "react-native-modern-datepicker";
-import {useFocusEffect} from "@react-navigation/native";
 import CarouselListView from "./CarouselListView";
+import {localConfig} from "../../../localeFrConfig";
 
 
 
@@ -15,17 +15,16 @@ import CarouselListView from "./CarouselListView";
      let dateNoFormatSTR = new Date();
      let trueMonth =dateNoFormatSTR.getMonth() + 1;
      let defaultSelectedDate =dateNoFormatSTR.getFullYear()+"-"+0+trueMonth+"-"+dateNoFormatSTR.getDate();
-     const [taskFocus, setTaskFocus] = useState();
 
 
-     useFocusEffect(
-         React.useCallback(() => {
+     useEffect(() => {
              readDataObject("tasks")
                  .then( r => setTasks(r) )
                  .catch(e => console.warn("err à la récuperation de la liste de tasks : ",e));
-             console.log("taskFocus   "+taskFocus)
-         }, [taskFocus])
-     );
+             console.log('coucou depusi home')
+         }, []);
+
+     const [selectedDay, setSelectedDay] = useState(null);
 
 
      return (
@@ -42,13 +41,18 @@ import CarouselListView from "./CarouselListView";
                       mainColor: '#5AC1E3',
                       textSecondaryColor: '#5AC1E3',
                   }}
-                  current={taskFocus}
-                  selected={taskFocus}
+                  current={defaultSelectedDate}
+                  selected={defaultSelectedDate}
                   mode="calendar"
                   minuteInterval={30}
                   style={{ borderRadius: 10 }}
+                  locale={"fr-fr"}
+                  configs={localConfig}
+
               />
+
           </View>
+
               <View style={styles.btnContainer}>
                       <TouchableOpacity onPress={()=>setListView(false)}>
                           <Text style={styles.twtBtn} >Cards</Text>
@@ -56,7 +60,7 @@ import CarouselListView from "./CarouselListView";
                   <View style={styles.hairline} />
                   <TouchableOpacity onPress={()=>setListView(true)}>
                           <Text  style={styles.twtBtn}>Liste</Text>
-                      </TouchableOpacity>
+                  </TouchableOpacity>
                   </View>
 
               <View style={styles.countTask}>
@@ -66,11 +70,11 @@ import CarouselListView from "./CarouselListView";
           </View>
           {listView ?
               <View style={styles.listCar}>
-                  <CarouselListView tasks={tasks} />
+                  <CarouselListView tasks={tasks} setTasks={setTasks} />
               </View>
               :
               <View style={styles.cardCar}>
-                  <CarouselTasks tasks={tasks} setTaskFocus={setTaskFocus}/>
+                  <CarouselTasks tasks={tasks} />
               </View>
           }
       </View>

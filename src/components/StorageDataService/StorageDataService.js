@@ -4,23 +4,29 @@ export const storeData = async (name, value) => {
     try {
         const jsonValue = JSON.stringify(value)
         await AsyncStorage.setItem(name, jsonValue)
-        console.log("La donnée " + name + " à été stockée , sa valeur est "+ value )
+            .then(()=>console.log("La donnée  <='" + name + "'=> à été stockée " ))
+
+    } catch (e) {
+        alert("impossible de sauvegarder la donnée")
+    }
+}
+export const updateStoreData = async (name, value) => {
+    try {
+        const jsonValue = JSON.stringify(value)
+        await AsyncStorage.setItem(name, jsonValue)
+            .then(()=>console.log("task après supression : "+value ))
 
     } catch (e) {
         alert("impossible de sauvegarder la donnée")
     }
 }
 
-export const updateStoreData = async (name,value) =>{
-    const jsonValue = JSON.stringify(value)
-    await AsyncStorage.mergeItem(name, jsonValue)
-    console.log("la value pour "+ name + " est "+ value)
-}
 
 export const getStoreData = async (name)=> {
     const nbTasks = await AsyncStorage.getItem(name);
     return JSON.parse(nbTasks);
 }
+
 export const readDataObject = async (name) => {
     try {
         const value = await AsyncStorage.getItem(name);
@@ -49,3 +55,14 @@ export const clearItemStorage = async (nameItem) => {
         alert('Failed to clear the async storage.');
     }
 };
+
+export const readAllDatas = async () => {
+    try {
+        const keys = await AsyncStorage.getAllKeys();
+        const result = await AsyncStorage.multiGet(keys);
+
+        return result.map(req => JSON.parse(req)).forEach(console.log);
+    } catch (error) {
+        console.error(error)
+    }
+}

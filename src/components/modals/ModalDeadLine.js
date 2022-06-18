@@ -3,7 +3,7 @@ import {Modal, StyleSheet, TouchableOpacity, View} from "react-native";
 import DatePicker from "react-native-modern-datepicker";
 import {AntDesign} from "@expo/vector-icons";
 
-const ModalDeadLine = ({setDeadLine,modalVisible2,toggleModal2}) =>{
+const ModalDeadLine = ({setDeadLine,setTimeDeadLine,modalVisible2,toggleModal2}) =>{
     return(
         <View style={styles.modal} >
             <Modal
@@ -14,6 +14,7 @@ const ModalDeadLine = ({setDeadLine,modalVisible2,toggleModal2}) =>{
                 <DatePicker
                     style={styles.datePicker}
                     onSelectedChange={date => setDeadLine(date)}
+                    onTimeChange={time => setTimeDeadLine(time)}
                    />
                 <TouchableOpacity onPress={()=>toggleModal2()} style={styles.btnModal}>
                     <AntDesign name="checkcircle" size={70} color="#00365C" />

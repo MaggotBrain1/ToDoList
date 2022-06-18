@@ -1,27 +1,27 @@
-import React, {useState} from 'react';
-import {View, StyleSheet} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Alert} from "react-native";
 
 import TaskList from "../TasksList";
-import {storeData} from "../../StorageDataService/StorageDataService";
+import {readAllDatas, readDataObject, storeData, updateStoreData} from "../../StorageDataService/StorageDataService";
 
-const  CarouselListView = ({tasks}) => {
-
-    const [ tsks, setTasks] = useState(tasks);
-
-    const onChangeStatus =(id) => {
+const  CarouselListView = ({tasks,setTasks}) => {
+        console.log("render de CarouselListView");
+    const onChangeStatus = (id) => {
+        console.log("on update le statut")
         let newTask = []
         tasks.forEach(task => {
             if (task.id === id) {
-                newTask.push({id: id, title: task.title, completed: !task.completed})
+                task.completed = !task.completed
+                newTask.push(task)
             } else {
                 newTask.push(task);
             }
         })
         setTasks(newTask);
-        storeData('tasks', tasks)
+        storeData('tasksComplet', tasks)
             .catch(e => console.warn("err update task après delete : ",e));
     }
-    const onDeleteTask = id => {
+    const onDeleteTask = (id) => {
         let newTasks = []
         tasks.forEach(task => {
             if ( task.id !== id ) {
@@ -33,9 +33,25 @@ const  CarouselListView = ({tasks}) => {
             .catch(e => console.warn("err update task après delete : ",e));
     }
 
+    const handleDeleteTask = (id) =>{
+        Alert.alert(
+            "Attention",
+            "Vous êtes sur le point de Supprimer cette tâche",
+            [
+                {
+                    text: "Annuler",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Modifier",
+                    onPress: () => onDeleteTask(id) }
+            ]
+        );
+    }
+
     return (
             <View style={styles.taskListContainer}>
-                <TaskList tasks={tasks} onChangeStatus={onChangeStatus} onDeleteTask={onDeleteTask} />
+                <TaskList tasks={tasks} onChangeStatus={onChangeStatus} handleDeleteTask={handleDeleteTask} />
             </View>
 
     );

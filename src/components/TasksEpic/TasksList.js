@@ -2,7 +2,8 @@ import React from 'react'
 import {FlatList} from "react-native";
 import TaskTile from "./TaskTile";
 
-const TaskList = ({ tasks, onChangeStatus, onDeleteTask }) => {
+const TaskList = ({ tasks, onChangeStatus, handleDeleteTask }) => {
+    console.log("render de TaskList");
 
     const _renderItem = ({ item }) =>
         <TaskTile
@@ -10,7 +11,7 @@ const TaskList = ({ tasks, onChangeStatus, onDeleteTask }) => {
             completed={item.completed}
             title={item.title}
             onChangeStatus={onChangeStatus}
-            onDeleteTask={onDeleteTask}
+            onDeleteTask={handleDeleteTask}
             item={item}
             tasks={tasks}
         />

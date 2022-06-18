@@ -7,6 +7,7 @@ import {useNavigation} from "@react-navigation/native";
 
 const TaskTile = ({id, title, completed, onChangeStatus, onDeleteTask, item,tasks}) => {
     const navigation = useNavigation();
+
     return(
 
         <View style={styles.container}>

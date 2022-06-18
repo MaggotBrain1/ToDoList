@@ -21,6 +21,7 @@ const ModalTime = ({setHeure,modalVisible1,toggleModal1}) =>{
                             mode="time"
                             minuteInterval={1}
                             onTimeChange={selectedTime => handleTime(selectedTime)}
+
                             />
                     <TouchableOpacity onPress={()=>toggleModal1()} style={styles.btnModal}>
                         <AntDesign name="checkcircle" size={70} color="#00365C" />
